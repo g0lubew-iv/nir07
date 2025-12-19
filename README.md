@@ -1,3 +1,6 @@
+NUST MISiS 2025
+
+```bash
 ├── biblio
 │   ├── bibliography.bib
 │   ├── gost2008n.bst
@@ -32,3 +35,4 @@
 ├── run.sh
 └── settings
     └── preamble.tex
+```
