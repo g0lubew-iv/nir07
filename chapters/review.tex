@@ -5,31 +5,255 @@
 \refstepcounter{chapter}
 \addcontentsline{toc}{chapter}{3. АНАЛИТИЧЕСКИЙ ОБЗОР}
 
+\newcommand{\divg}{\mathop{\mathrm{div}}\nolimits}
+\newcommand{\rot}{\mathop{\mathrm{rot}}\nolimits}
+\newcommand{\Ree}{\mathrm{Re}}
+\newcommand{\Imm}{\mathrm{Im}}
 
-\section{Влияние дальнодействия потенциала на критическое поведение}
+\section{Волновое уравнение для света в оптоволокне}
 
-Уравнения Максвелла запишем в следующем виде~\cite{10.1103/PhysRevLett.29.917}:
+Поскольку свет имеет электромагнитную природу, запишем уравнения Максвелла в следующем виде~\cite{diament1990wave}:
+
+% Магнитных зарядов в природе нет
 
 \begin{equation}
-	\mathcal{H} / k_{\mathrm{B}} T=-K \sum_{\langle i j\rangle} \frac{s_{i} s_{j}}{r_{i j}^{d+\sigma}}
-	\label{eq1}
+	\divg \mathbf{B} = 0
 \end{equation}
 
-\section{Влияние дальнодействия потенциала на фазовые диаграммы и плавление}
+% Электрический ток порождает электрическую индукцию
 
-В настоящий момент установлено, что 2D-сценарии плавления зависят от мягкости отталкивания, обеспечивая микроскопические сценарии 2D-плавления, описываемые в работах~\cite{10.3367/ufne.2017.06.038161, 10.3367/ufne.2018.04.038417}, что доказывает теория Березинского-Костерлица-Таулесса-Гальперина-Нельсона-Янга (БКТГНЯ), согласно которой плавление происходит через два непрерывных перехода с промежуточной гексатической фазой с квазидальним ориентационным порядком и ближним трансляционным порядком~\cite{10.1088/0022-3719/6/7/010, 10.1103/physrevlett.41.121, 10.1103/physrevb.19.2457, 10.1103/physrevb.19.1855}, плавление через фазовый переход первого рода, двухстадийное плавление, включающее непрерывный (Березинский-Костерлиц-Таулесс, БКТ) кристаллогексатический фазовый переход и фазовый переход первого рода между гексатической фазой и изотропной жидкостью.
-Второй и третий сценарии присущи системам с короткодействующим (жестким) отталкиванием, тогда как первый наблюдался при мягком отталкивании между частицами.
-Установлено, что мягкость отталкивания влияет на сценарии плавления, термодинамику и спектры возбуждения в монослойных системах.
-Однако известно, что роль притяжения в сценарии плавления монослойных систем остается систематически неизученной.
+\begin{equation}
+	\divg \mathbf{D} = \rho
+\end{equation}
 
-\section{Цели и задачи магистерской работы}
+% Электрический ток и изменение электрической индукции порождают вихревое магнитное поле
 
-\textbf{Цель работы} -- установить связь дальнодействия притяжения потенциала взаимодействия и спектров возбуждений с транспортными свойствами жидкостей, а также влияние на скорость нуклеации.
+\begin{equation}
+	\rot \mathbf{H} = \mathbf{j} + \frac{\partial \mathbf{D}}{\partial t}
+\end{equation}
 
-\textbf{Задачи работы:}
-\begin{enumerate}
-	\item Расчет фазовых диаграмм для 2D и 3D систем частиц, взаимодействующих посредством обобщенного потенциала Леннарда-Джонса с различными степенями притяжения.
-	\item Адаптация метода кластеризации данных DBSCAN для изучения молекулярных систем и его сравнение с другими методами.
-	\item Расчет и анализ транспортных свойств и коллективных возбуждений на жидкостных бинодалях.
-	\item Применение нового метода распознавания фаз для изучения скорости нуклеации в переохлажденных системах Леннарда-Джонса с различным дальнодействием притяжения.
-\end{enumerate}
+% Изменение магнитной индукции порождает вихревое электрическое поле
+
+\begin{equation}
+	\rot \mathbf{E} = - \frac{\partial \mathbf{B}}{\partial t}
+\end{equation}
+
+Здесь $\mathbf{E}$ и $\mathbf{H}$ -- электрическое и магнитное (векторные) поля, а $\mathbf{D}$ и $\mathbf{B}$ -- электрическая и магнитная индукции соответственно.
+
+В такой среде, как оптическое волокно, свободные заряды отсутствуют (так называемый диэлектрик), так что электрический ток и заряд нулевые: $\mathbf{j} = 0$, $\rho = 0$.
+
+Материальные уравнение для электрической и магнитной индукций запишем так:
+
+\begin{equation}
+	\mathbf{D} = \varepsilon_0 \mathbf{E} + \mathbf{P}
+\end{equation}
+
+\begin{equation}
+	\mathbf{B} = \mu_0 \mathbf{H} + \mathbf{M}
+\end{equation}
+
+Здесь $\varepsilon_0$ и $\mu_0$ это электрическая и магнитная постоянные, а $\mathbf{P}$ и $\mathbf{M}$ -- векторы поляризации. Для оптоволокна, которое является немагнитной (не намагниченной) средой, поляризация $\mathbf{M} = 0$. Имеем:
+
+\begin{equation}
+	\rot{\left( \rot \mathbf{E} \right)} = - \frac{1}{c^2} \frac{\partial^2 \mathbf{E}}{\partial t^2} - \mu_0 \frac{\partial^2 \mathbf{P}}{\partial t^2},
+\end{equation}
+
+где $c$ -- скорость света, связанная соотношением $\varepsilon_0 \mu_0 = 1/c$. Чтобы получить волновое уравнение, нам нужно установить связь между поляризацией $P$ и электрическим полем $E$.
+
+\begin{equation}
+	\mathbf{P}(\mathbf{r}, t) = \varepsilon_0 \int \limits_{-\infty}^{+\infty} \chi \left( \mathbf{r}, t - \xi \right) \mathbf{E}(\mathbf{r}, \xi) \, d\xi
+\end{equation}
+
+\begin{equation}
+	\mathbf{P}(\mathbf{r}, \omega) = \varepsilon_0 \int \widetilde{\chi} (\mathbf{r}, \omega) \cdot \widetilde{\mathbf{E}}(\mathbf{r}, \omega)
+\end{equation}
+
+Для частотной области:
+
+\begin{equation}
+	\rot{\left( \rot \mathbf{\widetilde{E}}(\mathbf{r}, \omega) \right)} = \varepsilon(\omega) \frac{\omega^2}{c^2} \mathbf{\widetilde{E}}(\mathbf{r}, \omega),
+\end{equation}
+
+где $\mathbf{\widetilde{E}}(\mathbf{r}, \omega)$ это преобразование Фурье $\mathbf{E}(\mathbf{r}, t)$, определённое как
+
+\begin{equation}
+	\mathbf{\widetilde{E}}(\mathbf{r}, \omega) = \int \limits_{\mathbb{R}} \mathbf{E}(\mathbf{r}, t) \exp{(i \omega t)} \, dt
+\end{equation}
+
+Диэлектрическую константу в частотной области определим как:
+
+\begin{equation}
+	\varepsilon(\omega) = 1 + \widetilde{\chi}_1(\omega),
+\end{equation}
+
+где $\widetilde{\chi}_1(\omega)$ это преобразование Фурье $\chi_1(t)$. Его действительная и мнимая части связаны с показателями преломления $n(\omega)$ и поглощения $\alpha(\omega)$ как:
+
+\begin{equation}
+	\varepsilon = \left( n + \frac{i \alpha c}{2\omega} \right) ^2
+\end{equation}
+
+\begin{equation}
+	n(\omega) = 1 + \frac{1}{2} \Ree \left[ \widetilde{\chi}_1(\omega) \right]
+\end{equation}
+
+\begin{equation}
+	\alpha(\omega) = \frac{\omega}{nc} \Imm \left[ \widetilde{\chi}_1(\omega) \right]
+\end{equation}
+
+Сделаем ещё два допущения~\cite{agrawal2007nonlinear}:
+
+a. Из-за низких потерь в оптических волокнах в рассматриваемой области длин волн мнимая часть $\varepsilon(\omega)$ на порядки меньше действительной части. Так что мы можем заменить $\varepsilon(\omega)$ на $n^2(\omega)$
+
+b. Поскольку $n(\omega)$ зачастую независимо от пространственных координат как в сердцевине, так и в оболочке ступенчатых волокон, мы имеем ($\divg \mathbf{D} = \varepsilon \divg \mathbf{E} = 0$)
+
+\begin{equation}
+	\rot{\left( \rot \mathbf{E} \right)} = \rot{\left( \divg \mathbf{E} \right)} - \Delta \mathbf{E} = - \Delta \mathbf{E}
+\end{equation}
+
+Тогда уравнение (3.11) принимает вид волнового уравнения (Гельмгольца):
+
+\begin{equation}
+	\Delta \widetilde{\mathbf{E}}(\mathbf{r}, \omega) + n^2(\omega) \frac{\omega^2}{c^2} \widetilde{\mathbf{E}}(\mathbf{r}, \omega) = 0
+\end{equation}
+
+\begin{equation}
+	\Delta \widetilde{\mathbf{H}}(\mathbf{r}, \omega) + n^2(\omega) \frac{\omega^2}{c^2} \widetilde{\mathbf{H}}(\mathbf{r}, \omega) = 0
+\end{equation}
+
+\section{Оптоволоконные моды}
+
+В силу цилиндрической симметрии волокна, перепишем волновое уравнение (3.18) для цилиндрических координат $\rho$, $\varphi$, $z$ ($k_0 = \omega / c = 2\pi / \lambda$):
+
+\begin{equation}
+	\frac{\partial^2 \widetilde{\mathbf{E}}}{\partial \rho^2} + \frac{1}{\rho} \frac{\partial \widetilde{\mathbf{E}}}{\partial \rho} + \frac{1}{\rho^2} \frac{\partial^2 \widetilde{\mathbf{E}}}{\partial \varphi^2} + \frac{\partial^2 \widetilde{\mathbf{E}}}{\partial z^2} + n^2k_0^2\widetilde{\mathbf{E}} = 0
+\end{equation}
+
+Поля $\mathbf{E}$ и $\mathbf{H}$ удовлетворяют уравнениям Максвелла (3.1-3.4), так что две координаты из шести независимы.
+Выберем таковыми $\widetilde{E}_z$ и $\widetilde{H}_z$, вдоль оси $z$ свет будет распространяться по оптоволокну.
+Решаем волновое уравнение для $\widetilde{E}_z$ методом разделяющихся переменных~\cite{diament1990wave  }:
+
+\begin{equation}
+	\widetilde{E}_z(r, \omega) = F(\rho)\exp{(im\varphi)}\exp{(i\beta z)},
+\end{equation}
+
+здесь амплитуда света $A(\omega)$ зависит только от частоты $\omega$, $\beta$ -- постоянная распространения, $m$ -- целое число (оно появится позже) и функция поперечного распространения (то, что мы назовём модой) $F(\rho)$ находится из уравнения
+
+\begin{equation}
+	\frac{d^2 F}{d \rho^2} + \frac{1}{\rho}\frac{dF}{d\rho} + \left( n^2k_0^2 - \beta^2 - \frac{m^2}{\rho^2} \right)F = 0
+\end{equation}
+
+Это хорошо известное уравнение для функций Бесселя, общее решение которого $F$ может быть записано как~\cite{watson1995treatise}
+
+\begin{equation}
+	F(\rho) = c_1 J_m(p\rho) + c_2 N_m(p\rho),
+\end{equation}
+
+где $J_m$ -- функция Бесселя 1-го рода, а $N_m$ -- функция Нейманна, которая имеет разрыв в точке $\rho=0$, так что мы положим $c_2=0$ для физического смысла. Постоянная $c_1$ будет учтена в амплитуде $A(\omega)$. Тогда:
+
+\begin{equation}
+	F(\rho) = J_m(p\rho), \,\,\, p^2 = n_1^2k_0^2-\beta^2, \,\,\, \rho \leq R
+\end{equation}
+
+На поверхности оболочки решение $F(\rho)$ должно экспоненциально убывать с ростом $\rho$. Это учитывается функцией Бесселя 2-го рода $K_m$:
+
+\begin{equation}
+	F(\rho) = K_m(q\rho), \,\,\, q^2 = \beta^2-n_2^2k_0^2, \,\,\, \rho > R
+\end{equation}
+
+В итоге решения $\widetilde{E}_z$ и $\widetilde{H}_z$ будут иметь вид:
+
+\begin{equation}
+	\widetilde{E}_z(\rho, \varphi, z) =
+	\begin{cases}
+		A J_m(p\rho)\exp{(im\varphi)}\exp{(i\beta z)}, & \text{if $\rho \leq a$} \\
+		C K_m(p\rho)\exp{(im\varphi)}\exp{(i\beta z)}, & \text{if $\rho > a$}
+	\end{cases}
+\end{equation}
+
+\begin{equation}
+	\widetilde{H}_z(\rho, \varphi, z) =
+	\begin{cases}
+		B J_m(p\rho)\exp{(im\varphi)}\exp{(i\beta z)}, & \text{if $\rho \leq a$} \\
+		D K_m(p\rho)\exp{(im\varphi)}\exp{(i\beta z)}, & \text{if $\rho > a$}
+	\end{cases}
+\end{equation}
+
+Используя уравнения Максвелла, выведем соотношения компонент внутри сердцевины волокна~\cite{snyder1983optical}:
+
+\begin{equation}
+	\widetilde{E}_{\rho} = \frac{i}{p^2} \left( \beta \frac{\partial E_z}{\partial \rho} + \mu_0 \frac{\omega}{\rho} \frac{\partial H_z}{\partial \varphi} \right)
+\end{equation}
+
+\begin{equation}
+	\widetilde{E}_{\varphi} = \frac{i}{p^2} \left( \frac{\beta}{\rho} \frac{\partial E_z}{\partial \varphi} - \mu_0 \omega \frac{\partial H_z}{\partial \rho} \right)
+\end{equation}
+
+\begin{equation}
+	\widetilde{H}_{\rho} = \frac{i}{p^2} \left( \beta \frac{\partial H_z}{\partial \rho} - \varepsilon_0 n^2 \frac{\omega}{\rho} \frac{\partial E_z}{\partial \varphi} \right)
+\end{equation}
+
+\begin{equation}
+	\widetilde{H}_{\varphi} = \frac{i}{p^2} \left( \frac{\beta}{\rho} \frac{\partial H_z}{\partial \varphi} + \varepsilon_0 n^2 \omega \frac{\partial E_z}{\partial \rho} \right)
+\end{equation}
+
+Аналогичные уравнение будут в зоне оболочки можно получить после замены $p^2$ на $-q^2$.
+Нам необходима непрерывность полей $\mathbf{\widetilde{E}}$ и $\mathbf{\widetilde{H}}$ на месте стыка сердцевины и оболочки (условие $\rho = a$), которая достигается равенством формул для них при $\rho \to a^-$ и $\rho \to a^+$.
+
+Все нужные алгебраические преобразования проделаны, например, в книге~\cite{buck2004fundamentals} -- в итоге имеем характеристическое уравнение:
+
+\begin{equation}
+	\begin{cases}
+		\xi = {J'_m(pa)}/{pJ_m(pa)}  \\
+		\eta = {K'_m(qa)}/{qK_m(qa)} \\
+		\kappa = {n_2^2}/{n_1^2}     \\
+		\left( \xi + \eta \right) \left( \xi + \kappa \eta \right) = \left( {m \beta k_0 (n_1^2-n_2^2)}/{an_1p^2q^2} \right)^2
+	\end{cases}
+\end{equation}
+
+Вообще говоря, это уравнение имеет несколько решений $\beta$ для разных целых значений $m$, что обуславливает существование нескольких мод.
+Введём параметр нормализованной частоты $V=k_0a\sqrt{n_1^2-n_2^2}$
+
+Характеристическое уравнение позволяет определять такие значения $V$, при которых существуют различные моды распространения света~\cite{agrawal2007nonlinear, marcuse1991theory}.
+Поскольку мы рассматриваем одномодовое оптоволокно, то ограничимся рассмотрением условия для возникновения только одной, так же называемой фундаментальной, моды.
+Остальные моды не возникают, если параметр $V<V_c$, где $V_c$ это наименьший корень уравнения $J_0(V_c)=0$, так что $V_c \approx 2.405$~\cite{agrawal2007nonlinear}.
+Нужная длина волны $\lambda_c$ для одномодового волокна может быть получена подстановкой $k_0=2\pi/\lambda_c$ и $V=2.405$ в связывающее их уравнение.
+На практике обычно разность показателей преломления равна $n_1-n_2 \approx 0.005$, так что длина волны $\lambda_c = 1.2$ микрометра при радиусе оптоволокна $a=4$ микрометра.
+Соответственно, нам нужна длина волны $\lambda > 1.2$ микрометра.
+
+Формула для электрического поля, распространяющегося вдоль оси $z$ и поляризованного вдоль оси $\mathbf{x}$ примерно равна:
+
+\begin{equation}
+	\mathbf{\widetilde{E}}{(\mathbf{r}, \omega)} = A(\omega) F(x, y) \exp{(i \beta(\omega) z )} \mathbf{x}
+\end{equation}
+
+Тогда поперечное распределение фундаментальной моды в сердцевине~\cite{marcuse1991theory}:
+
+\begin{equation}
+	F(x, y) = J_0(p\rho), \,\,\, \rho < a,
+\end{equation}
+
+где $\rho = \sqrt{x^2+y^2}$ -- радиус волокна, а на оболочке:
+
+\begin{equation}
+	F(x, y) = \sqrt{a/\rho} J_0(pa) \exp{(-q(\rho-a))}, \,\,\, \rho \geq a.
+\end{equation}
+
+Тогда постоянная распространения $\beta(\omega)$ может быть найдена из характеристического уравнения (обычно это численные методы, как показано в~\cite{marcuse1991theory})
+
+Введём эффективный показатель преломления моды как $n_eff = \beta / k_0$.
+
+На практике хорошо себя показало гауссово приближение распространения фундаментальной моды $F(x, y)$:
+
+\begin{equation}
+	F(x, y) \approx \exp{-(x^2+y^2)/w^2},
+\end{equation}
+
+где параметр ширины $w$ определяется аппроксимацией кривой распределения поля или с помощью вариационных методов~\cite{agrawal2007nonlinear}. В статье~\cite{Marcuse:78} показано, что такое приближение отлично работает на практике, особенно когда параметр $V$ не сильно больше $2$.
+
+ГРАФИКИ ДЛЯ V=2.4 !!!
+
+В частности, в статье~\cite{Marcuse:78} получили приближённое значение $w$ с точностью до $1\%$ для $1.2 < V < 2.4$:
+
+$$w/a \approx 0.65 + 1.619V^{-3/2} + 2.879V^{-6}$$
+
+\section{Уравнение распространения импульса}

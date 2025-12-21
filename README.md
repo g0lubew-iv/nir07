@@ -5,15 +5,6 @@ NUST MISiS 2025
 │   ├── bibliography.bib
 │   ├── gost2008n.bst
 │   └── rm_extra_bib_items.py
-├── build
-│   ├── chapters
-│   ├── diploma.aux
-│   ├── diploma.bbl
-│   ├── diploma.blg
-│   ├── diploma.log
-│   ├── diploma.out
-│   ├── diploma.pdf
-│   └── diploma.toc
 ├── chapters
 │   ├── abbreviations.tex
 │   ├── bibliography.tex
@@ -24,7 +15,6 @@ NUST MISiS 2025
 │   ├── math-methods.tex
 │   ├── math-problem.tex
 │   └── review.tex
-├── diploma.pdf
 ├── diploma.tex
 ├── extra
 │   └── title.pdf
