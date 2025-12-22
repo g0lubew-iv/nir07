@@ -8,12 +8,9 @@ NUST MISiS 2025
 ├── chapters
 │   ├── abbreviations.tex
 │   ├── bibliography.tex
-│   ├── concept-problem.tex
 │   ├── conclusion.tex
 │   ├── introduction.tex
-│   ├── it-methods.tex
-│   ├── math-methods.tex
-│   ├── math-problem.tex
+│   ├── problem.tex
 │   └── review.tex
 ├── diploma.tex
 ├── extra
