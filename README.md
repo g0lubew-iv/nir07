@@ -14,9 +14,9 @@ NUST MISiS 2025
 │   └── review.tex
 ├── diploma.tex
 ├── extra
+│   ├── presentation.pdf
 │   └── title.pdf
 ├── images
-├── presa.tex
 ├── README.md
 ├── res
 ├── run.sh
