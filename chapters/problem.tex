@@ -19,7 +19,9 @@
 
 Свет в нашей модели имеет волновую природу и представляет собой электромагнитную волну с двумя ортогональными поляризациями (оси $x$ и $y$). Распространение оптического излучения в волокне длиной $L$ описывается в приближении медленно меняющихся амплитуд. Несущая длина волны составляет $\lambda$. Введём вектор комплексных огибающих $\mathbf{A}$ так:
 
-$$ \mathbf{A}(z, t) = \left( A_x(z, t), A_y(z, t) \right)^T \in \mathbb{C}^2 $$
+\begin{equation}
+	\mathbf{A}(z, t) = \left( A_x(z, t), A_y(z, t) \right)^T \in \mathbb{C}^2
+\end{equation}
 
 Здесь $z$ это координата вдоль волокна ($0 \leq z \leq L$), $t$ -- время, а компоненты $A_{x,y}$ соответствуют двум ортогональным состояниям поляризации. Физический смысл комплексной огибающей следующий: квадрат длины $|A_{x, y}|^2 \in \mathbb{R}_+$ пропорционален мощности оптического сигнала, а аргумент $\arg(A_{x,y}) \in [0, 2\pi]$ определяет фазу волны относительно несущей.
 
@@ -27,19 +29,27 @@ $$ \mathbf{A}(z, t) = \left( A_x(z, t), A_y(z, t) \right)^T \in \mathbb{C}^2 $$
 
 Эволюция комплексной огибающей $\mathbf{A}(z, t)$ вдоль волокна описывается нелинейным уравнением Шрёдингера (NLSE):
 
-$$ \frac{\partial \mathbf{A}}{\partial z} = - \frac{\alpha}{2} \mathbf{A} - i \frac{\beta_2}{2} \frac{\partial^2 \mathbf{A}}{\partial t^2} + i \frac{8}{9} \gamma ||\mathbf{A}||^2 \mathbf{A} $$
+\begin{equation}
+	\frac{\partial \mathbf{A}}{\partial z} = - \frac{\alpha}{2} \mathbf{A} - i \frac{\beta_2}{2} \frac{\partial^2 \mathbf{A}}{\partial t^2} + i \frac{8}{9} \gamma ||\mathbf{A}||^2 \mathbf{A}
+\end{equation}
 
 Здесь $\alpha$ -- коэффициент затухания, $\beta_2$ -- коэффициент дисперсии второго порядка, $\gamma$ -- нелинейный коэффициент, а $||\mathbf{A}||^2 = |A_x|^2 + |A_y|^2$. Введём оператор (генератор эволюции) $\mathcal{H}: \mathcal{F} \to \mathcal{F}$, где $\mathcal{F}$ это пространство вектор-функций вида $(z, t) \mapsto \mathbf{A}(z, t)$, на основе NLSE следующим образом:
 
-$$ \mathcal{H} = \left( - \frac{\alpha}{2} - i \frac{\beta_2}{2} \frac{\partial^2}{\partial t^2} \right) + \left( i \frac{8}{9} \gamma ||\cdot||^2 \right) $$
+\begin{equation}
+	\mathcal{H} = \left( - \frac{\alpha}{2} - i \frac{\beta_2}{2} \frac{\partial^2}{\partial t^2} \right) + \left( i \frac{8}{9} \gamma ||\cdot||^2 \right)
+\end{equation}
 
 Тогда оператор эволюции оптического сигнала на всю длину волокна $L$ выражается через него как экспонента:
 
-$$ \mathbf{y} = e^{L \mathcal{H}} \mathbf{x}  = \sum_{n = 0}^{\infty} \frac{L^n}{n!} \mathcal{H}^n \, \mathbf{x} $$
+\begin{equation}
+	\mathbf{y} = e^{L \mathcal{H}} \mathbf{x}  = \sum_{n = 0}^{\infty} \frac{L^n}{n!} \mathcal{H}^n \, \mathbf{x}
+\end{equation}
 
 Метод цифрового обратного распространения (DBP) заключается в применении обратного оператора эволюции к полученному сигналу $\mathbf{y}$:
 
-$$ \mathbf{x} = e^{-L \mathcal{H}} \mathbf{y} $$
+\begin{equation}
+	\mathbf{x} = e^{-L \mathcal{H}} \mathbf{y}
+\end{equation}
 
 Итак, наша формальная задача -- аппроксимация операторной экспоненты $e^{-L \mathcal{H}}$ физически информированной нейронной сетью (PINN) $\mathbf{f}_{\theta}$, архитектура которой повторяет структуру итерационного алгоритма SSFM. Входом сети является принятый сигнал $\mathbf{y}$, а выходом -- его оценка $\hat{\mathbf{x}} = \mathbf{f}_{\theta}(\mathbf{y})$. Сеть состоит из $K$ слоёв, каждый из которых соответствует одному шагу обратного распространения и аппроксимирует оператор $e^{-h_k \mathcal{H}}$, где $h_k$ это длина одного итерационного шага (суммарно, $\sum_{k=1}^{K}h_k = L$)
 
@@ -47,21 +57,29 @@ $$ \mathbf{x} = e^{-L \mathcal{H}} \mathbf{y} $$
 
 1) Линейный слой реализует FIR-фильтр $\mathcal{D}_k$ с обучаемыми комплексными коэффициентами $\mathbf{a}_k[m] \in \mathbb{C}^2$, где $m = -M, \ldots, M$ -- номер отвода фильтра. Фильтр применяется к сигналу как свертка во временной области с использованием адамарова произведения $\odot$ (покоординатного умножения), для частоты дискретизации сигнала $\Delta t$:
 
-$$ \mathcal{D}_k[\mathbf{u}_{k+1}] = \sum_{m=-M}^{M} \mathbf{a}_k[m] \odot \mathbf{u}_{k+1}(t - m \Delta t) $$
+\begin{equation}
+	\mathcal{D}_k[\mathbf{u}_{k+1}] = \sum_{m=-M}^{M} \mathbf{a}_k[m] \odot \mathbf{u}_{k+1}(t - m \Delta t)
+\end{equation}
 
 2) Нелинейный слой: компенсация фазовой самомодуляции осуществляется за счёт покоординатного умножения $\boldsymbol{\sigma}_k$ на нелинейную функцию:
 
-$$ \boldsymbol{\sigma}_k(\mathbf{u}_{k+1}) = \mathbf{u}_{k+1} \cdot e^{i \gamma h_k ||\mathbf{u}_{k+1}||^2} $$
+\begin{equation}
+	\boldsymbol{\sigma}_k(\mathbf{u}_{k+1}) = \mathbf{u}_{k+1} \cdot e^{i \gamma h_k ||\mathbf{u}_{k+1}||^2}
+\end{equation}
 
 В итоге получившаяся модель выглядит следующим образом ($\theta$ это вектор из всех обучаемых параметров фильтров $\mathcal{D}_k$):
 
-$$ \mathbf{f}_{\theta}(\mathbf{y}) = \boldsymbol{\sigma}_1 (\mathcal{D}_1[\ldots [\boldsymbol{\sigma}_K(\mathcal{D}_K[\mathbf{y}])]\ldots]) $$
+\begin{equation}
+	\mathbf{f}_{\theta}(\mathbf{y}) = \boldsymbol{\sigma}_1 (\mathcal{D}_1[\ldots [\boldsymbol{\sigma}_K(\mathcal{D}_K[\mathbf{y}])]\ldots])
+\end{equation}
 
 Полученная модель $\mathbf{f}_{\theta}$ представляет собой параметрическую аппроксимацию оператора обратного распространения. Её задача -- по принятому сигналу $\mathbf{y}$ восстановить переданный сигнал $\hat{\mathbf{x}} = \mathbf{f}_{\theta}(\mathbf{y})$. Параметры модели $\theta = \{ \mathbf{a}_1, \dots, \mathbf{a}_K \}$ (комплексные коэффициенты всех FIR-фильтров) подлежат обучению по набору данных.
 
 Пусть имеется датасет $\{ (\mathbf{x}_1, \mathbf{y}_1), \ldots, (\mathbf{x}_N, \mathbf{y}_N) \}$, состоящий из $N$ пар переданных и соответствующих им принятых сигналов. Обучение модели заключается в минимизации эмпирического риска -- среднеквадратической ошибки (MSE, Mean Squared Error) между истинным переданным сигналом $\mathbf{x}_n$ и его оценкой $\hat{\mathbf{x}}_n$:
 
-$$ \theta^* = \argmin_{\theta} \, \frac{1}{N} \sum_{n=1}^{N} ||\mathbf{x}_n - \mathbf{\hat{x}}_n||^2 $$
+\begin{equation}
+	\theta^* = \argmin_{\theta} \, \frac{1}{N} \sum_{n=1}^{N} ||\mathbf{x}_n - \mathbf{\hat{x}}_n||^2
+\end{equation}
 
 Разработке вышеописанной модели $\mathbf{f}_{\theta}$ и её обучению (решению задачи оптимизации) посвящена данная научно-исследовательская работа.
 
