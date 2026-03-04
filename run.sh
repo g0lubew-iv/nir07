@@ -2,9 +2,9 @@
 
 mkdir -p build/chapters/
 
-pdflatex -output-directory=build diploma.tex
-bibtex build/diploma.aux
-pdflatex -output-directory=build diploma.tex
-pdflatex -output-directory=build diploma.tex
+pdflatex -output-directory=build report.tex
+bibtex build/report.aux
+pdflatex -output-directory=build report.tex
+pdflatex -output-directory=build report.tex
 
-cp build/diploma.pdf .
+cp build/report.pdf .
