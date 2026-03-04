@@ -3,8 +3,7 @@ NUST MISiS 2025
 ```bash
 ├── biblio
 │   ├── bibliography.bib
-│   ├── gost2008n.bst
-│   └── rm_extra_bib_items.py
+│   └── gost2008n.bst
 ├── chapters
 │   ├── abbreviations.tex
 │   ├── bibliography.tex
@@ -12,13 +11,15 @@ NUST MISiS 2025
 │   ├── introduction.tex
 │   ├── problem.tex
 │   └── review.tex
-├── diploma.tex
+├── report.tex
+├── report.pdf
 ├── extra
+│   ├── presentation.pdf
+│   ├── requirements.pdf
 │   └── title.pdf
 ├── images
-├── presa.tex
+│   └── ...
 ├── README.md
-├── res
 ├── run.sh
 └── settings
     └── preamble.tex
