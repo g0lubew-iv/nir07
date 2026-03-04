@@ -1,4 +1,4 @@
-NUST MISiS 2025
+NUST MISiS 2026
 
 ```bash
 ├── biblio
